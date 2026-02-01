@@ -27,7 +27,7 @@ pipeline {
             steps {
                 withCredentials([
                     string(credentialsId: 'jenkins-build-intelligence', variable: 'API_TOKEN'),
-                    string(credentialsId: 'admin', variable: 'USERNAME')
+                    string(credentialsId: 'jenkins-build-intelligence', variable: 'USERNAME')
                 ]) {
                     bat """
                     docker run --rm ^
