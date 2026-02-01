@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         JENKINS_URL = "http://host.docker.internal:8080"
-        JOB_NAME    = "Jenkins_Build_Intelligence"
+        JOB_NAME    = "jenkins-build-intelligence"
         IMAGE_NAME  = "jenkins-build-intelligence"
     }
 
