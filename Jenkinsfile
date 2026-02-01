@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        JENKINS_URL = "http://localhost:8080"
+        JENKINS_URL = "http://host.docker.internal:8080"
         JOB_NAME    = "Jenkins_Build_Intelligence"
         IMAGE_NAME  = "jenkins-build-intelligence"
     }
@@ -26,8 +26,11 @@ pipeline {
         stage('Run Build Intelligence') {
             steps {
                 withCredentials([
-                    string(credentialsId: 'jenkins-build-intelligence', variable: 'API_TOKEN'),
-                    string(credentialsId: 'jenkins-build-intelligence', variable: 'USERNAME')
+                    usernamePassword(
+                        credentialsId: 'jenkins-build-intelligence',
+                        usernameVariable: 'USERNAME',
+                        passwordVariable: 'API_TOKEN'
+                    )
                 ]) {
                     bat """
                     docker run --rm ^
