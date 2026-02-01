@@ -26,7 +26,7 @@ pipeline {
         stage('Run Build Intelligence') {
             steps {
                 withCredentials([
-                    string(credentialsId: 'jenkins-api-token', variable: 'API_TOKEN'),
+                    string(credentialsId: 'jenkins-build-intelligence', variable: 'API_TOKEN'),
                     string(credentialsId: 'admin', variable: 'USERNAME')
                 ]) {
                     bat """
