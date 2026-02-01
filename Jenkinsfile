@@ -13,7 +13,7 @@ pipeline {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/NehalVReddy/jenkins-build-intelligence.git',
-                    credentialsId: 'github-pat'
+                    credentialsId: 'github-pat-new'
             }
         }
 
