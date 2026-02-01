@@ -27,7 +27,7 @@ pipeline {
             steps {
                 withCredentials([
                     usernamePassword(
-                        credentialsId: 'jenkins-build-intelligence',
+                        credentialsId: 'jenkins-api',
                         usernameVariable: 'USERNAME',
                         passwordVariable: 'API_TOKEN'
                     )
@@ -44,6 +44,7 @@ pipeline {
                 }
             }
         }
+
 
         stage('Archive Reports') {
             steps {
