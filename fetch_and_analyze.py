@@ -46,7 +46,17 @@ with open("analysis.json", "w") as f:
 existing = [f for f in os.listdir(".") if f.startswith("last5_builds_")]
 version = len(existing) + 1
 
-with open(f"last5_builds_{version}.json", "w") as f:
-    json.dump(builds, f, indent=2)
+import os
+
+output_dir = "/output"
+os.makedirs(output_dir, exist_ok=True)
+
+output_file = os.path.join(output_dir, "last5_builds.json")
+
+with open(output_file, "w") as f:
+    json.dump(data, f, indent=2)
+
+print("Build Intelligence Generated Successfully")
+
 
 print("Build Intelligence Generated Successfully")
