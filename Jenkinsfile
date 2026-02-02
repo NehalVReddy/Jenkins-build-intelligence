@@ -23,6 +23,13 @@ pipeline {
             }
         }
 
+        stage('List Docker Images') {
+            steps {
+                bat "docker images"
+            }
+        }
+
+
         stage('Run Build Intelligence') {
             steps {
                 withCredentials([
