@@ -42,38 +42,34 @@ pipeline {
         stage('Run Build Intelligence') {
             steps {
                 withCredentials([
-                    usernamePassword(
-                        credentialsId: 'api-key',
-                        usernameVariable: 'USERNAME',
-                        passwordVariable: 'API_TOKEN'
-                    )
+                    string(credentialsId: 'api-key', variable: 'API_TOKEN')
                 ]) {
                     bat """
                     docker run --rm ^
-                    -e JENKINS_URL=http://host.docker.internal:8080 ^
-                    -e JOB_NAME=jenkins-check ^
-                    -e USERNAME=%USERNAME% ^
+                    -e JENKINS_URL=%JENKINS_URL% ^
+                    -e JOB_NAME=%JOB_NAME% ^
+                    -e USERNAME=admin ^
                     -e API_TOKEN=%API_TOKEN% ^
                     -v %WORKSPACE%:/output ^
-                    jenkins-build-intelligence
+                    %IMAGE_NAME%
                     """
                 }
             }
         }
 
-        stage('Debug Env Vars') {
-            steps {
-                bat '''
-                docker run --rm ^
-                -e JENKINS_URL=%JENKINS_URL% ^
-                -e JOB_NAME=%JOB_NAME% ^
-                -e USERNAME=admin ^
-                -e API_TOKEN=**** ^
-                jenkins-build-intelligence ^
-                env
-                '''
-            }
-        }
+        // stage('Debug Env Vars') {
+        //     steps {
+        //         bat '''
+        //         docker run --rm ^
+        //         -e JENKINS_URL=%JENKINS_URL% ^
+        //         -e JOB_NAME=%JOB_NAME% ^
+        //         -e USERNAME=admin ^
+        //         -e API_TOKEN=**** ^
+        //         jenkins-build-intelligence ^
+        //         env
+        //         '''
+        //     }
+        // }
 
 
 
