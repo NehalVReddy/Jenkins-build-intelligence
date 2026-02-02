@@ -26,7 +26,7 @@ pipeline {
         stage('Run Container') {
             steps {
                 bat '''
-                docker run --rm jenkins-build-intelligence || true
+                docker rm jenkins-build-intelligence || true
                 docker run -d --name jenkins-build-intelligence -p 5000:5000 %IMAGE_NAME%
                 '''
             }
