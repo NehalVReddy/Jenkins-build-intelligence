@@ -23,14 +23,14 @@ pipeline {
             }
         }
 
-        // stage('Run Container') {
-        //     steps {
-        //         bat '''
-        //         docker run --rm jenkins-build-intelligence
-        //         // docker run -d --name jenkins-build-intelligence -p 5000:5000 %IMAGE_NAME%
-        //         '''
-        //     }
-        // }
+        stage('Run Container') {
+            steps {
+                bat '''
+                // docker run --rm jenkins-build-intelligence
+                docker run -d --name jenkins-build-intelligence -p 5000:5000 %IMAGE_NAME%
+                '''
+            }
+        }
         
         stage('List Docker Images') {
             steps {
