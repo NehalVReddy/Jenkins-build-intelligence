@@ -23,14 +23,14 @@ pipeline {
             }
         }
 
-        stage('Run Container') {
-            steps {
-                bat '''
-                docker run --rm jenkins-build-intelligence
-                // docker run -d --name jenkins-build-intelligence -p 5000:5000 %IMAGE_NAME%
-                '''
-            }
-        }
+        // stage('Run Container') {
+        //     steps {
+        //         bat '''
+        //         docker run --rm jenkins-build-intelligence
+        //         // docker run -d --name jenkins-build-intelligence -p 5000:5000 %IMAGE_NAME%
+        //         '''
+        //     }
+        // }
         
         stage('List Docker Images') {
             steps {
@@ -50,12 +50,12 @@ pipeline {
                 ]) {
                     bat """
                     docker run --rm ^
-                    -e JENKINS_URL=%JENKINS_URL% ^
-                    -e JOB_NAME=%JOB_NAME% ^
+                    -e JENKINS_URL=http://host.docker.internal:8080 ^
+                    -e JOB_NAME=jenkins-check ^
                     -e USERNAME=%USERNAME% ^
                     -e API_TOKEN=%API_TOKEN% ^
                     -v %WORKSPACE%:/output ^
-                    %IMAGE_NAME%
+                    jenkins-build-intelligence
                     """
                 }
             }
