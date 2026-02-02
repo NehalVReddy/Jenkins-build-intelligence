@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME  = "jenkins-build-intelligence"
         JENKINS_URL = "http://host.docker.internal:8080"
         JOB_NAME    = "jenkins-check"
+        IMAGE_NAME  = "jenkins-build-intelligence"
     }
 
     stages {
@@ -19,33 +19,37 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t %IMAGE_NAME% .'
+                bat "docker build -t %IMAGE_NAME% ."
             }
         }
 
-        stage('Run Container (SERVICE MODE)') {
+        stage('List Docker Images') {
+            steps {
+                bat "docker images"
+            }
+        }
+
+        stage('Run Build Intelligence (Batch Job)') {
             steps {
                 withCredentials([
                     string(credentialsId: 'api-key', variable: 'API_TOKEN')
                 ]) {
-                    bat '''
-                    docker rm -f demo || true
-                    docker run -d ^
-                      --name demo ^
-                      -p 5000:5000 ^
-                      -e JENKINS_URL=http://host.docker.internal:8080 ^
-                      -e JOB_NAME=jenkins-check ^
-                      -e USERNAME=admin ^
-                      -e API_TOKEN=%API_TOKEN% ^
-                      jenkins-build-intelligence
-                    '''
+                    bat """
+                    docker run --rm ^
+                    -e JENKINS_URL=%JENKINS_URL% ^
+                    -e JOB_NAME=%JOB_NAME% ^
+                    -e USERNAME=admin ^
+                    -e API_TOKEN=%API_TOKEN% ^
+                    -v %WORKSPACE%:/output ^
+                    %IMAGE_NAME%
+                    """
                 }
             }
         }
 
-        stage('List Running Containers') {
+        stage('Archive Reports') {
             steps {
-                bat 'docker ps'
+                archiveArtifacts artifacts: '*.json', fingerprint: true
             }
         }
     }
