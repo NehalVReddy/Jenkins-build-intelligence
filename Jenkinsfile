@@ -61,6 +61,21 @@ pipeline {
             }
         }
 
+        stage('Debug Env Vars') {
+            steps {
+                bat '''
+                docker run --rm ^
+                -e JENKINS_URL=%JENKINS_URL% ^
+                -e JOB_NAME=%JOB_NAME% ^
+                -e USERNAME=admin ^
+                -e API_TOKEN=**** ^
+                jenkins-build-intelligence ^
+                env
+                '''
+            }
+        }
+
+
 
         stage('Archive Reports') {
             steps {
