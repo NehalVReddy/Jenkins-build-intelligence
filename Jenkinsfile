@@ -43,7 +43,7 @@ pipeline {
             steps {
                 withCredentials([
                     usernamePassword(
-                        credentialsId: 'jenkins-api-token',
+                        credentialsId: 'api-key',
                         usernameVariable: 'USERNAME',
                         passwordVariable: 'API_TOKEN'
                     )
